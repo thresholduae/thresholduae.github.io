@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Threshold</title>
+<meta name="description" content="Property tools for renting and buying in the UAE: decode a listing, check an ad is genuine, work out the true cost, compare homes, run a viewing checklist, rent or buy, and write messages to agents. Or talk to a consultant.">
+<meta name="theme-color" content="#EEE8DB">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Threshold">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="config.js"></script>
+<script>
+  /* Apply the chosen look before anything is drawn, so there is no flash. */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('pt.theme'); } catch (e) {}
+    if (!t && window.APP_CONFIG && window.APP_CONFIG.look) { t = window.APP_CONFIG.look; }
+    var q = /[?&]look=(light|dark)/.exec(window.location.search); // a link ending in ?look=olive previews that look
+    if (q) { t = q[1]; }
+    if (t === 'light' || t === 'dark') { document.documentElement.setAttribute('data-theme', t); }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="backdrop" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6.500 10v9.500h11V10"/></symbol>
+    <symbol id="i-decode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14M5 11h9M5 16h6"/><circle cx="17" cy="16" r="3.2"/><path d="m19.4 18.4 2.1 2.1"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 5 6v5.500c0 4.300 2.900 7.600 7 9 4.100-1.400 7-4.700 7-9V6l-7-2.500Z"/><path d="M12 8.500v4.200M12 15.600v.2"/></symbol>
+    <symbol id="i-coins" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7.500" rx="5.500" ry="2.800"/><path d="M3.500 7.500v4c0 1.500 2.500 2.800 5.500 2.800M3.500 11.500v4c0 1.500 2.500 2.800 5.500 2.800"/><ellipse cx="15.500" cy="14" rx="5" ry="2.600"/><path d="M10.500 14v3.600c0 1.400 2.200 2.600 5 2.600s5-1.200 5-2.600V14"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M7 20h10M5 7h14"/><path d="M5 7 2.500 13a3 3 0 0 0 5 0L5 7ZM19 7l-2.500 6a3 3 0 0 0 5 0L19 7Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.500" y="4" width="15" height="16.500" rx="3"/><path d="m8.500 12.300 2.400 2.400 4.600-5"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15.500" r="4"/><path d="m11 12.700 8.500-8.200M16 7.800l2.600 2.600M13.600 10.200l1.800 1.800"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4.500L19.700 8.800a2.100 2.100 0 0 0-3-3L5.500 17 4 20Z"/><path d="m14.800 7.700 3 3"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.500h14a1.500 1.500 0 0 1 1.500 1.500v8.500A1.500 1.500 0 0 1 19 17h-6.500L8 20.500V17H5a1.500 1.500 0 0 1-1.500-1.500V7A1.500 1.500 0 0 1 5 5.500Z"/><path d="M8 10h8M8 13h5"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4.500h10a1 1 0 0 1 1 1V20l-6-4-6 4V5.500a1 1 0 0 1 1-1Z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.500A1.500 1.500 0 0 1 6.500 4H19v13H6.500A1.500 1.500 0 0 0 5 18.500v-13Z"/><path d="M5 18.500A1.500 1.500 0 0 0 6.500 20H19v-3M9 8h6"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.500 11 12 15.500 16.500 11M5 19.500h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M10 7V5h4v2M7 7l.8 12h8.400L17 7"/></symbol>
+    <symbol id="i-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.500 6 8.500 12l6 6"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.500 6 6 6-6 6"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" style="fill:var(--cta-a)"/><path d="M20 50V25a12 12 0 0 1 24 0v25Z" fill="#F5EEE2"/><path d="M32 50V30a6 6 0 0 1 12-5v25Z" fill="#B9906E"/></symbol>
+  </defs>
+</svg>
+
+<div class="splash" aria-hidden="true"><div><svg><use href="#i-mark"/></svg><span data-brand>Threshold</span></div></div>
+
+<div class="app">
+
+  <nav class="rail glass" aria-label="Main">
+    <div class="rail-brand"><svg aria-hidden="true"><use href="#i-mark"/></svg><span><span data-brand>Threshold</span><small>UAE property toolkit</small></span></div>
+    <button type="button" data-go="home" data-nav="home"><svg aria-hidden="true"><use href="#i-home"/></svg><span>Home</span></button>
+    <button type="button" data-go="decode" data-nav="decode"><svg aria-hidden="true"><use href="#i-decode"/></svg><span>Decode</span></button>
+    <button type="button" data-go="saved" data-nav="saved"><svg aria-hidden="true"><use href="#i-bookmark"/></svg><span>Saved</span><span class="count" id="savedCount"></span></button>
+    <button type="button" data-go="consult" data-nav="consult"><svg aria-hidden="true"><use href="#i-chat"/></svg><span>Consultant</span></button>
+    <button type="button" class="push" data-go="more" data-nav="more"><svg aria-hidden="true"><use href="#i-gear"/></svg><span>Settings</span></button>
+  </nav>
+
+  <div class="stage">
+    <header class="appbar" id="appbar">
+      <button type="button" class="iconbtn is-off" id="navBack" aria-label="Back"><svg aria-hidden="true"><use href="#i-back"/></svg></button>
+      <div class="appbar-title" id="barTitle"></div>
+      <button type="button" class="iconbtn only-phone" data-go="more" aria-label="Settings" id="barMore"><svg aria-hidden="true"><use href="#i-gear"/></svg></button>
+    </header>
+
+    <main id="main">
+
+      <!-- ================= Home ================= -->
+      <section id="view-home">
+        <div class="home-top">
+          <p class="eyebrow" id="greet">Welcome</p>
+          <h1>What are you looking at today?</h1>
+          <p class="home-sub">Property tools for renting and buying in the UAE.</p>
+        </div>
+
+        <div class="stagger">
+          <button type="button" class="quick glass" data-go="decode">
+            <span class="ico"><svg aria-hidden="true"><use href="#i-decode"/></svg></span>
+            <span><b>Decode a listing</b><small>Paste any ad and see what it is really saying.</small></span>
+            <svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </button>
+
+          <h2 class="sec">Your tools</h2>
+          <div class="tiles">
+            <button type="button" class="tile glass" data-go="decode" data-scam="1">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>
+              <h3>Is this ad genuine?</h3><p>Screen a rental for the signs fake listings share.</p>
+            </button>
+            <button type="button" class="tile glass" data-go="cost">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-coins"/></svg></span>
+              <h3>True Cost</h3><p>Every fee, deposit and bill, added up.</p>
+            </button>
+            <button type="button" class="tile glass" data-go="rentbuy">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-key"/></svg></span>
+              <h3>Rent or Buy</h3><p>Which leaves you better off, and from which year.</p>
+            </button>
+            <button type="button" class="tile glass" data-go="viewing">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+              <h3>Viewing Checklist</h3><p>What to test while you are inside.</p>
+            </button>
+            <button type="button" class="tile glass" data-go="compare">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-scale"/></svg></span>
+              <h3>Compare Homes</h3><p>Score your shortlist on what matters to you.</p>
+            </button>
+            <button type="button" class="tile glass" data-go="letters">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-pen"/></svg></span>
+              <h3>Message Writer</h3><p>Offers, renewals, repairs and deposits, in the right words.</p>
+            </button>
+          </div>
+
+          <h2 class="sec">Need a person?</h2>
+          <button type="button" class="advisor glass" data-go="consult">
+            <span class="avatar" id="homeAvatar"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>
+            <span><b>Talk to a consultant</b><small id="homeAdvisorSub">Ask about a listing, a price or an offer.</small></span>
+            <svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </button>
+        </div>
+
+        <p class="fine"><span data-brand>Threshold</span> gives general information to help you ask better questions. It cannot see the property, and it is not legal, financial or mortgage advice.</p>
+      </section>
+
+      <!-- ================= Decode ================= -->
+      <section id="view-decode" hidden>
+        <div class="page-head">
+          <h1 id="decodeTitle">Ad Decoder</h1>
+          <p id="decodeSub">Paste a property ad and see what it is really saying.</p>
+        </div>
+
+        <div class="panel glass">
+          <div class="sheet-head">
+            <div class="seg" id="modeSeg" role="group" aria-label="Are you renting or buying?">
+              <button type="button" data-mode="rent" aria-pressed="true">I'm renting</button>
+              <button type="button" data-mode="buy" aria-pressed="false">I'm buying</button>
+            </div>
+            <button type="button" class="link-btn" id="pasteBtn">Paste</button>
+          </div>
+          <label for="adText" hidden>The listing text</label>
+          <textarea id="adText" placeholder="Copy the description from a property portal, a social media ad or a WhatsApp message, and paste it here."></textarea>
+          <p class="input-msg" id="inputMsg" role="alert" hidden></p>
+          <div class="go-row">
+            <button type="button" class="btn btn-main" id="decodeBtn">Decode this ad</button>
+            <button type="button" class="btn btn-quiet" id="clearBtn">Clear</button>
+          </div>
+          <div class="examples">
+            <span>No ad to hand? Try one:</span>
+            <button type="button" class="chip" data-example="rent">A rental</button>
+            <button type="button" class="chip" data-example="buy">An off-plan sale</button>
+            <button type="button" class="chip" data-example="scam">A suspicious rental</button>
+          </div>
+          <div class="textlinks">
+            <button type="button" class="link-btn" data-go="book">Open the phrasebook</button>
+          </div>
+          <p class="privacy">The text you paste is read on your own device and is never sent anywhere.</p>
+        </div>
+
+        <div id="results" class="results" hidden></div>
+      </section>
+
+      <!-- ================= Phrasebook ================= -->
+      <section id="view-book" hidden>
+        <div class="page-head">
+          <h1>The phrasebook</h1>
+          <p>Every phrase the decoder knows, with what it usually means and what to ask. These are common meanings, not a verdict on any one property.</p>
+        </div>
+        <label for="bookSearch" hidden>Search the phrasebook</label>
+        <input id="bookSearch" class="search" type="search" placeholder="Search a word, like chiller, ROI or cheques">
+        <div class="filters" id="bookFilters">
+          <button type="button" class="chip" data-cat="all" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-cat="scam" aria-pressed="false">Scam signs</button>
+          <button type="button" class="chip" data-cat="watch" aria-pressed="false">Watch out</button>
+          <button type="button" class="chip" data-cat="spin" aria-pressed="false">Sales talk</button>
+          <button type="button" class="chip" data-cat="fact" aria-pressed="false">Good signs</button>
+        </div>
+        <div class="book" id="bookList"></div>
+      </section>
+
+      <!-- ================= Saved ================= -->
+      <section id="view-saved" hidden>
+        <div class="page-head">
+          <h1>Saved ads</h1>
+          <p>Ads you saved on this device, so you can come back to them before you book viewings.</p>
+        </div>
+        <div id="savedList"></div>
+      </section>
+
+      <!-- ================= Drawn by tools.js ================= -->
+      <section id="view-cost" hidden></section>
+      <section id="view-compare" hidden></section>
+      <section id="view-viewing" hidden></section>
+      <section id="view-rentbuy" hidden></section>
+      <section id="view-letters" hidden></section>
+      <section id="view-consult" hidden></section>
+
+      <!-- ================= Settings ================= -->
+      <section id="view-more" hidden>
+        <div class="page-head">
+          <h1>Settings</h1>
+        </div>
+        <div class="panel glass">
+          <h3>Appearance</h3>
+          <p class="lede">Choose the look you prefer.</p>
+          <div class="looks" id="looks">
+            <button type="button" class="look" data-theme-pick="light" aria-pressed="false">
+              <span class="sw" style="background:#EEE8DB"><i style="background:#C9D0B0;left:-20%;top:-40%"></i><i style="background:#C6CFEE;right:-30%;bottom:-60%"></i><b style="background:#2F3A26;border-color:#2F3A26"></b><u style="background:#3152DC"></u></span>
+              <span><strong>Light</strong><small>Bone, olive green and navy</small></span>
+            </button>
+            <button type="button" class="look" data-theme-pick="dark" aria-pressed="false">
+              <span class="sw" style="background:#0F130E"><i style="background:#55633C;left:-20%;top:-40%"></i><i style="background:#26398F;right:-30%;bottom:-60%"></i><b style="background:rgba(236,240,214,.16)"></b><u style="background:#3F5FE6"></u></span>
+              <span><strong>Dark</strong><small>Deep olive, bone and navy</small></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel glass">
+          <div class="rowlist">
+            <button type="button" class="row-btn" id="installBtn">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-down"/></svg></span>
+              <span><b>Install the app</b><small id="installSub">Add it to your home screen so it opens like any other app.</small></span>
+              <svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
+            </button>
+            <button type="button" class="row-btn" data-go="book">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-book"/></svg></span>
+              <span><b>Phrasebook</b><small>Every phrase the decoder knows.</small></span>
+              <svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
+            </button>
+            <button type="button" class="row-btn" id="wipeBtn">
+              <span class="ico"><svg aria-hidden="true"><use href="#i-trash"/></svg></span>
+              <span><b>Clear my data</b><small id="wipeSub">Removes saved ads and everything you typed, from this device.</small></span>
+              <svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <details class="panel glass terms">
+          <summary><h3>About, terms and privacy</h3></summary>
+          <p><b>What this is.</b> <span data-brand>Threshold</span> is a set of free tools for people renting or buying a home in the UAE. It gives general information to help you ask better questions. It cannot see the property, and it is not legal, financial, mortgage or investment advice.</p>
+          <p><b>The figures.</b> Fees, deposits and percentages are typical published figures, last checked on 14 November 2026. They change, they differ between emirates, and your own contract may say something else. You can change every figure. Confirm the current ones with your agent, your bank, the Land Department or your utility provider before you commit. If you spot a wrong figure, tell us through the Consultant screen.</p>
+          <p><b>The decoder.</b> It shows what listing phrases often mean. A highlighted phrase is a reason to ask a question, not proof of anything about a property, an agent or an owner.</p>
+          <p><b>Your decisions.</b> You use the tools at your own risk and remain responsible for your own decisions. To the extent the law allows, the publisher accepts no liability for loss arising from reliance on the tools.</p>
+          <p><b>Privacy.</b> What you type and save stays on this device and is never sent anywhere. The app adds one to an anonymous counter when it is opened and when a tool is opened; the counter records no text, no name and nothing you typed. If you send a consultation request, the details you entered are emailed to the consultant through a form delivery service, and are used only to reply to you, unless you ticked the box to receive tips.</p>
+          <p><b>Talking to a consultant.</b> Consultations are free. A consultation is a conversation, not a regulated legal, mortgage or investment service. If you later buy or rent through the consultant, the usual agency commission for that transaction applies and is agreed in writing first.</p>
+        </details>
+
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="pop" id="pop" hidden>
+  <div class="pop-card glass" role="dialog" aria-live="polite" aria-label="What this phrase means">
+    <div class="pop-top">
+      <div>
+        <div class="pop-kind" id="popKind"></div>
+        <div class="pop-says" id="popSays"></div>
+      </div>
+      <button type="button" class="x" id="popClose" aria-label="Close">×</button>
+    </div>
+    <p class="pop-means" id="popMeans"></p>
+    <p class="pop-ask" id="popAsk"></p>
+  </div>
+</div>
+
+<div class="webview" id="webview" hidden>
+  <div class="webview-bar">
+    <button type="button" class="btn btn-sm" id="webClose">Done</button>
+    <span id="webTitle"></span>
+    <a class="btn btn-sm btn-quiet" id="webOut" target="_blank" rel="noopener">Open in browser</a>
+  </div>
+  <iframe id="webFrame" title="Consultant website" referrerpolicy="no-referrer"></iframe>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="phrases.js"></script>
+<script src="app.js"></script>
+<script src="tools.js"></script>
+</body>
+</html>
