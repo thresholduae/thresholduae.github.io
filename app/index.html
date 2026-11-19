@@ -287,6 +287,22 @@
   <iframe id="webFrame" title="Consultant website" referrerpolicy="no-referrer"></iframe>
 </div>
 
+<!-- Free account: asked once, the first time someone decodes their own ad (the demo ads stay free). -->
+<div class="signup" id="signup" hidden>
+  <form class="signup-card glass" id="signupForm" role="dialog" aria-modal="true" aria-labelledby="signupTitle" novalidate>
+    <button type="button" class="x signup-x" id="signupClose" aria-label="Close">×</button>
+    <div class="signup-badge">Free · no password · 10 seconds</div>
+    <h2 id="signupTitle">Your result is ready</h2>
+    <p class="signup-sub">Create your free Threshold account to see it. You'll only be asked once.</p>
+    <label class="f"><span>First name</span><div class="in"><input id="suName" autocomplete="given-name" maxlength="60" placeholder="Sara"></div></label>
+    <label class="f"><span>Email or WhatsApp number</span><div class="in"><input id="suContact" autocomplete="email" inputmode="email" maxlength="120" placeholder="you@gmail.com or 05X XXX XXXX"></div></label>
+    <label class="signup-tick"><input type="checkbox" id="suNews"><span><b>Send me the weekly Threshold brief</b><small>New scam tricks seen in UAE ads, rent trends and one money-saving tip. One message a week, stop anytime.</small></span></label>
+    <p class="input-msg" id="suMsg" role="alert" hidden></p>
+    <button type="submit" class="btn btn-main signup-go" id="suGo">See my result</button>
+    <p class="signup-fine">Free forever. We never sell your details. <a href="https://thresholduae.com/privacy.html" target="_blank" rel="noopener">Privacy</a> · <button type="button" class="link-btn" id="suDemo">Try the demo ad instead</button></p>
+  </form>
+</div>
+
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script src="phrases.js"></script>
