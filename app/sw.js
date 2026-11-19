@@ -1,6 +1,6 @@
 /* Lets the app open with no internet, once it has been opened online one time.
    Change the version below whenever you upload changed files, so phones fetch the new ones. */
-var VERSION = 'threshold-v8';
+var VERSION = 'threshold-v9';
 var FILES = ['./', 'index.html', 'styles.css', 'config.js', 'phrases.js', 'app.js', 'tools.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png'];
 

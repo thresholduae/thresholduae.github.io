@@ -139,7 +139,7 @@
       <section id="view-decode" hidden>
         <div class="page-head">
           <h1 id="decodeTitle">Ad Decoder</h1>
-          <p id="decodeSub">Paste a property ad and see what it is really saying.</p>
+          <p id="decodeSub">Paste a property ad or its link and see what it is really saying.</p>
         </div>
 
         <div class="panel glass">
@@ -151,8 +151,9 @@
             <button type="button" class="link-btn" id="pasteBtn">Paste</button>
           </div>
           <label for="adText" hidden>The listing text</label>
-          <textarea id="adText" placeholder="Copy the description from a property portal, a social media ad or a WhatsApp message, and paste it here."></textarea>
+          <textarea id="adText" placeholder="Paste the ad's description, the whole listing page, or its link from Bayut, Property Finder, Dubizzle, Instagram or WhatsApp."></textarea>
           <p class="input-msg" id="inputMsg" role="alert" hidden></p>
+          <div class="link-info" id="linkInfo" role="status" hidden></div>
           <div class="go-row">
             <button type="button" class="btn btn-main" id="decodeBtn">Decode this ad</button>
             <button type="button" class="btn btn-quiet" id="clearBtn">Clear</button>
