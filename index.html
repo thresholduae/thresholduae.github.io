@@ -77,9 +77,9 @@
 
   <section class="hero">
     <div>
-      <div class="soon"><i></i>Free now in your browser Â· phone app coming soon</div>
+      <div class="soon"><i></i>Free now in your browser · phone app coming soon</div>
       <h1>Read any UAE property ad <span>before you pay.</span></h1>
-      <p class="lead">Paste a listing and see the warning signs, the sales talk and what it leaves out. Then see what the home will really cost each month. Free, no account needed, and what you type stays on your phone.</p>
+      <p class="lead">Paste a listing and see the warning signs, the sales talk and what it leaves out. Then see what the home will really cost each month. Free forever: try the demo now, and check your own ads with a free account. No password, and what you paste stays on your phone.</p>
       <div class="try">
         <a class="main" id="tryApp" href="app/#/decode">Check an ad now, free</a>
         <a class="alt" id="tryScam" href="app/#example=scam">See it catch a fake ad</a>
@@ -88,21 +88,16 @@
 
     <div class="card" id="card">
       <form id="f" novalidate>
-        <h2>Get the phone app first</h2>
-        <p class="sub">Pre-register and we'll send you the download link the day it's out. Free, and nothing else unless you ask.</p>
-        <div class="perk"><b>New</b><span>In the app, paste a Bayut, Property Finder or Dubizzle link and it reads the ad for you. No copying.</span></div>
-        <label class="f" for="name">Your first name</label>
-        <input type="text" id="name" autocomplete="given-name" maxlength="60">
-        <label class="f" for="email">Email</label>
-        <input type="email" id="email" autocomplete="email" inputmode="email" maxlength="120" placeholder="you@gmail.com">
-        <label class="f">Your phone</label>
-        <div class="chips" data-k="phone"><button type="button" class="chip" data-v="Android">Android</button><button type="button" class="chip" data-v="iPhone">iPhone</button></div>
-        <label class="f">You are</label>
-        <div class="chips" data-k="plan"><button type="button" class="chip" data-v="Renting">Renting</button><button type="button" class="chip" data-v="Buying">Buying</button><button type="button" class="chip" data-v="Just curious">Just curious</button></div>
-        <label class="tick"><input type="checkbox" id="tester"><span>I'll test it early on Android for two weeks<small>Use the Gmail address linked to your Play Store.</small></span></label>
-        <label class="tick"><input type="checkbox" id="tips"><span>Also send me occasional property tips<small>You can stop these at any time.</small></span></label>
+        <h2>Create your free account</h2>
+        <p class="sub">Check your own ads, save the ones you like, and get the phone app link the day it's out. 10 seconds, no password.</p>
+        <div class="perk"><b>New</b><span>In the phone app, paste a Bayut, Property Finder or Dubizzle link and it reads the ad for you.</span></div>
+        <label class="f" for="name">First name</label>
+        <input type="text" id="name" autocomplete="given-name" maxlength="60" placeholder="Sara">
+        <label class="f" for="email">Email or WhatsApp number</label>
+        <input type="text" id="email" autocomplete="email" inputmode="email" maxlength="120" placeholder="you@gmail.com or 05X XXX XXXX">
+        <label class="tick"><input type="checkbox" id="tips"><span><b>Send me the weekly Threshold brief</b><small>New scam tricks seen in UAE ads, rent trends and one money-saving tip. One message a week, stop anytime.</small></span></label>
         <input class="hp" type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="go" type="submit" id="go">Pre-register free</button>
+        <button class="go" type="submit" id="go">Create free account</button>
         <div class="msg" id="msg" role="alert"></div>
         <p class="fine">Your details go only to the Threshold team and are used as described in the <a href="privacy.html">privacy policy</a>. They are never sold.</p>
       </form>
@@ -121,7 +116,7 @@
     <div class="feat"><b>Six more tools</b><p>Rent or buy, a viewing checklist, comparing homes, and ready messages for rent offers, repairs and deposits.</p></div>
   </section>
 
-  <footer><span>Â© 2026 Threshold. All rights reserved.</span><a href="rental-scam-check.html">Is this rental ad a scam?</a><a href="cost-of-renting-dubai.html">The real cost of renting in Dubai</a><a href="buying-costs-dubai.html">Costs of buying in Dubai</a><a href="privacy.html">Privacy policy</a><span>General information, not legal or financial advice.</span></footer>
+  <footer><span>© 2026 Threshold. All rights reserved.</span><a href="rental-scam-check.html">Is this rental ad a scam?</a><a href="cost-of-renting-dubai.html">The real cost of renting in Dubai</a><a href="buying-costs-dubai.html">Costs of buying in Dubai</a><a href="privacy.html">Privacy policy</a><span>General information, not legal or financial advice.</span></footer>
 </main>
 
 <script>
@@ -148,58 +143,49 @@
   var tag = '?ref=' + (ref || 'landing');
   document.getElementById('tryApp').href = 'app/' + tag + '#/decode';
   document.getElementById('tryScam').href = 'app/' + tag + '#example=scam';
-  [].forEach.call(document.querySelectorAll('.chip'), function (c) { c.setAttribute('aria-pressed', 'false'); });
-
-  var pick = { phone: '', plan: '' };
-  [].forEach.call(document.querySelectorAll('.chips'), function (box) {
-    box.addEventListener('click', function (e) {
-      var b = e.target.closest('.chip'); if (!b) { return; }
-      pick[box.dataset.k] = b.dataset.v;
-      [].forEach.call(box.querySelectorAll('.chip'), function (c) { c.setAttribute('aria-pressed', c === b); });
-    });
-  });
+  // The free account is shared with the web app (same site), so signing up here unlocks the app too.
+  var SIGNUP_URL = '';   // the sign-up server address once it is live (tools/signup-worker); '' = email to TO
+  var ACCOUNT_KEY = 'pt.account.v1';
+  function getAcc() { try { return JSON.parse(localStorage.getItem(ACCOUNT_KEY) || 'null'); } catch (e) { return null; } }
+  try { if (ref) { localStorage.setItem('pt.ref', ref); } } catch (e) {}
+  var share = 'https://wa.me/?text=' + encodeURIComponent('Flat hunting? This free app checks any UAE property ad for scam signs before you pay: https://thresholduae.com/?ref=friend');
+  function welcome(name, isNew) {
+    document.getElementById('card').innerHTML = '<div class="done"><div>' + (isNew ? 'Your free account is ready' : 'Welcome back') + '</div><div class="big">' +
+      (isNew ? 'Thank you, ' : 'Hi ') + name.replace(/[<>&"]/g, '') + '.</div>' +
+      '<p style="color:var(--soft);margin:0">Paste any ad or link and Threshold tells you what it really says. We will send you the phone app link the day it is out.</p>' +
+      '<a class="wa" href="app/' + tag + '#/decode">Check your first ad</a><br>' +
+      '<a class="wa" href="' + share + '">Send it to a friend who is flat hunting</a></div>';
+  }
+  var known = getAcc();
+  if (known && known.name) { welcome(known.name, false); }
 
   var f = document.getElementById('f'), msg = document.getElementById('msg'), go = document.getElementById('go');
-  f.addEventListener('submit', function (e) {
+  if (f) f.addEventListener('submit', function (e) {
     e.preventDefault();
     if (document.getElementById('hp').value) { return; }
     var name = document.getElementById('name').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var tester = document.getElementById('tester').checked;
+    var contact = document.getElementById('email').value.trim();
+    var digits = contact.replace(/[^\d+]/g, '');
+    var isMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+    var news = document.getElementById('tips').checked;
     if (!name) { msg.textContent = 'Please add your first name.'; return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please check your email address.'; return; }
-    if (tester && pick.phone === 'iPhone') { msg.textContent = 'Early testing is on Android only for now. Untick it, or choose Android.'; return; }
-    msg.textContent = ''; go.disabled = true; go.textContent = 'Savingâ€¦';
-    if (KIT_FORM_ID) {
-      // Adds them to the mailing list. The list service does not let a page read its reply, so this is sent and not checked.
-      var kit = new URLSearchParams();
-      kit.append('email_address', email); kit.append('first_name', name);
-      kit.append('fields[phone]', pick.phone || ''); kit.append('fields[looking_to]', pick.plan || '');
-      kit.append('fields[tester]', tester ? 'yes' : 'no');
-      fetch('https://app.kit.com/forms/' + encodeURIComponent(KIT_FORM_ID) + '/subscriptions', { method: 'POST', mode: 'no-cors', body: kit }).catch(function () {});
-    }
-    var body = {
-      _subject: 'Threshold early list: ' + name + (tester ? ' (TESTER)' : ''),
-      _template: 'table', _captcha: 'false', _replyto: email,
-      Name: name, Email: email, Phone: pick.phone || '-', 'They are': pick.plan || '-',
-      'Android tester': tester ? 'YES, add this Gmail to closed testing' : 'No',
-      'Wants occasional tips': document.getElementById('tips').checked ? 'YES, may be contacted again' : 'No',
-      Source: 'Early-list page' + (ref ? ' (via ' + ref + ')' : '')
-    };
-    fetch('https://formsubmit.co/ajax/' + encodeURIComponent(TO), {
-      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body)
-    }).then(function (r) { return r.json(); }).then(function (j) {
-      if (String(j.success) === 'true') {
-        count('waitlist-join');
-        document.getElementById('card').innerHTML = '<div class="done"><div>You are on the list</div><div class="big">Thank you, ' + name.replace(/[<>&"]/g, '') + '.</div>' +
-          '<p style="color:var(--soft);margin:0">' + (tester ? 'You will get an invite to test it on Android first.' : 'You will get one email when the app is out.') + '</p>' +
-          '<a class="wa" href="https://wa.me/?text=' + encodeURIComponent('Flat hunting? This free app checks any UAE property ad for scam signs before you pay: https://thresholduae.com/?ref=friend') + '">Send it to a friend who is flat hunting</a><br>' +
-          '<a class="wa" href="app/' + tag + '#/decode">Check an ad now in your browser</a></div>';
-      } else {
-        throw new Error(j.message || 'failed');
-      }
+    if (!isMail && !/^\+?\d{9,15}$/.test(digits)) { msg.textContent = 'Add an email, or a WhatsApp number like 05X XXX XXXX.'; return; }
+    msg.textContent = ''; go.disabled = true; go.textContent = 'Creating…';
+    var acc = { name: name, contact: isMail ? contact : digits, news: news, source: ref || 'landing', at: new Date().toISOString() };
+    var req = SIGNUP_URL
+      ? fetch(SIGNUP_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name, email: isMail ? contact : '', phone: isMail ? '' : digits, newsletter: news, source: acc.source, app: 'site' }) })
+          .then(function (r) { if (!r.ok) { throw new Error('failed'); } })
+      : fetch('https://formsubmit.co/ajax/' + encodeURIComponent(TO), {
+          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ _subject: 'Threshold sign-up: ' + name + (news ? ' (newsletter)' : ''), _template: 'table', _captcha: 'false',
+            Name: name, 'Email or WhatsApp': acc.contact, 'Weekly brief': news ? 'YES' : 'No', Source: 'Website' + (ref ? ' (via ' + ref + ')' : ''), Date: acc.at })
+        }).then(function (r) { return r.json(); }).then(function (j) { if (String(j.success) !== 'true') { throw new Error(j.message || 'failed'); } });
+    req.then(function () {
+      try { localStorage.setItem(ACCOUNT_KEY, JSON.stringify(acc)); } catch (err) {}
+      count('signup'); if (news) { count('signup-news'); }
+      welcome(name, true);
     }).catch(function () {
-      go.disabled = false; go.textContent = 'Pre-register free';
+      go.disabled = false; go.textContent = 'Create free account';
       msg.textContent = 'That did not go through. Please try again in a minute.';
     });
   });
