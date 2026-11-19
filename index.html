@@ -7,7 +7,10 @@
 <meta name="description" content="A free app for renting and buying in the UAE. Spot fake listings, see the real cost, and know what to ask. Join the early list.">
 <meta property="og:title" content="Threshold: read any UAE property ad before you pay">
 <meta property="og:description" content="Free app for renting and buying in the UAE. Join the early list.">
-<meta property="og:image" content="img/share.jpg">
+<meta property="og:image" content="https://thresholduae.github.io/img/share.jpg">
+<meta property="og:url" content="https://thresholduae.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://thresholduae.github.io/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#EEE8DB">
 <link rel="icon" href="img/icon.png">
@@ -61,6 +64,11 @@
   footer { margin-top: 48px; font-size: 13.5px; color: var(--soft); display: flex; flex-wrap: wrap; gap: 8px 18px; }
   footer a { color: var(--soft); }
   .hp { position: absolute; left: -9999px; }
+  .try { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .try a.main { font-weight: 700; color: #F5EEE2; text-decoration: none; border-radius: 16px; padding: 14px 20px; background: linear-gradient(135deg, #46573A, #262F1F); box-shadow: 0 12px 26px -14px rgba(31,38,25,.8); }
+  .try a.alt { font-weight: 700; color: var(--olive); text-decoration: none; border: 1px solid var(--line); border-radius: 16px; padding: 13px 18px; background: #fff8; }
+  .perk { display: flex; gap: 10px; align-items: flex-start; background: #fff8; border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; font-size: 14.5px; margin: 0 0 6px; }
+  .perk b { color: var(--navy); }
 </style>
 </head>
 <body>
@@ -69,15 +77,20 @@
 
   <section class="hero">
     <div>
-      <div class="soon"><i></i>Coming to Android and iPhone</div>
+      <div class="soon"><i></i>Free now in your browser · phone app coming soon</div>
       <h1>Read any UAE property ad <span>before you pay.</span></h1>
       <p class="lead">Paste a listing and see the warning signs, the sales talk and what it leaves out. Then see what the home will really cost each month. Free, no account needed, and what you type stays on your phone.</p>
+      <div class="try">
+        <a class="main" id="tryApp" href="app/#/decode">Check an ad now, free</a>
+        <a class="alt" id="tryScam" href="app/#example=scam">See it catch a fake ad</a>
+      </div>
     </div>
 
     <div class="card" id="card">
       <form id="f" novalidate>
-        <h2>Join the early list</h2>
-        <p class="sub">Leave your email and we'll send you the download link the day it's published. Free, and nothing else unless you ask.</p>
+        <h2>Get the phone app first</h2>
+        <p class="sub">Pre-register and we'll send you the download link the day it's out. Free, and nothing else unless you ask.</p>
+        <div class="perk"><b>New</b><span>In the app, paste a Bayut, Property Finder or Dubizzle link and it reads the ad for you. No copying.</span></div>
         <label class="f" for="name">Your first name</label>
         <input type="text" id="name" autocomplete="given-name" maxlength="60">
         <label class="f" for="email">Email</label>
@@ -89,7 +102,7 @@
         <label class="tick"><input type="checkbox" id="tester"><span>I'll test it early on Android for two weeks<small>Use the Gmail address linked to your Play Store.</small></span></label>
         <label class="tick"><input type="checkbox" id="tips"><span>Also send me occasional property tips<small>You can stop these at any time.</small></span></label>
         <input class="hp" type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="go" type="submit" id="go">Join the list</button>
+        <button class="go" type="submit" id="go">Pre-register free</button>
         <div class="msg" id="msg" role="alert"></div>
         <p class="fine">Your details go only to the Threshold team and are used as described in the <a href="privacy.html">privacy policy</a>. They are never sold.</p>
       </form>
@@ -108,7 +121,7 @@
     <div class="feat"><b>Six more tools</b><p>Rent or buy, a viewing checklist, comparing homes, and ready messages for rent offers, repairs and deposits.</p></div>
   </section>
 
-  <footer><span>© 2026 Threshold. All rights reserved.</span><a href="privacy.html">Privacy policy</a><span>General information, not legal or financial advice.</span></footer>
+  <footer><span>© 2026 Threshold. All rights reserved.</span><a href="rental-scam-check.html">Is this rental ad a scam?</a><a href="cost-of-renting-dubai.html">The real cost of renting in Dubai</a><a href="buying-costs-dubai.html">Costs of buying in Dubai</a><a href="privacy.html">Privacy policy</a><span>General information, not legal or financial advice.</span></footer>
 </main>
 
 <script>
@@ -128,6 +141,14 @@
     fetch('https://abacus.jasoncameron.dev/hit/' + COUNTER + '/' + key, { mode: 'cors', credentials: 'omit' }).catch(function () {});
   }
   count('waitlist-visit');
+  // Tracked links: ?ref=reddit, ?ref=press... are counted and passed on to the app, so we know which channel works.
+  var ref = '';
+  try { ref = (new URLSearchParams(location.search).get('ref') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 24); } catch (e) {}
+  if (ref) { count('ref-' + ref); }
+  var tag = '?ref=' + (ref || 'landing');
+  document.getElementById('tryApp').href = 'app/' + tag + '#/decode';
+  document.getElementById('tryScam').href = 'app/' + tag + '#example=scam';
+  [].forEach.call(document.querySelectorAll('.chip'), function (c) { c.setAttribute('aria-pressed', 'false'); });
 
   var pick = { phone: '', plan: '' };
   [].forEach.call(document.querySelectorAll('.chips'), function (box) {
@@ -148,7 +169,7 @@
     if (!name) { msg.textContent = 'Please add your first name.'; return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please check your email address.'; return; }
     if (tester && pick.phone === 'iPhone') { msg.textContent = 'Early testing is on Android only for now. Untick it, or choose Android.'; return; }
-    msg.textContent = ''; go.disabled = true; go.textContent = 'Joining…';
+    msg.textContent = ''; go.disabled = true; go.textContent = 'Saving…';
     if (KIT_FORM_ID) {
       // Adds them to the mailing list. The list service does not let a page read its reply, so this is sent and not checked.
       var kit = new URLSearchParams();
@@ -163,7 +184,7 @@
       Name: name, Email: email, Phone: pick.phone || '-', 'They are': pick.plan || '-',
       'Android tester': tester ? 'YES, add this Gmail to closed testing' : 'No',
       'Wants occasional tips': document.getElementById('tips').checked ? 'YES, may be contacted again' : 'No',
-      Source: 'Early-list page'
+      Source: 'Early-list page' + (ref ? ' (via ' + ref + ')' : '')
     };
     fetch('https://formsubmit.co/ajax/' + encodeURIComponent(TO), {
       method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body)
@@ -172,12 +193,13 @@
         count('waitlist-join');
         document.getElementById('card').innerHTML = '<div class="done"><div>You are on the list</div><div class="big">Thank you, ' + name.replace(/[<>&"]/g, '') + '.</div>' +
           '<p style="color:var(--soft);margin:0">' + (tester ? 'You will get an invite to test it on Android first.' : 'You will get one email when the app is out.') + '</p>' +
-          '<a class="wa" href="https://wa.me/' + WA + '?text=' + encodeURIComponent('Hello, I joined the Threshold early list and have a property question.') + '">Got a property question? WhatsApp us</a></div>';
+          '<a class="wa" href="https://wa.me/?text=' + encodeURIComponent('Flat hunting? This free app checks any UAE property ad for scam signs before you pay: https://thresholduae.github.io/?ref=friend') + '">Send it to a friend who is flat hunting</a><br>' +
+          '<a class="wa" href="app/' + tag + '#/decode">Check an ad now in your browser</a></div>';
       } else {
         throw new Error(j.message || 'failed');
       }
     }).catch(function () {
-      go.disabled = false; go.textContent = 'Join the list';
+      go.disabled = false; go.textContent = 'Pre-register free';
       msg.textContent = 'That did not go through. Please try again in a minute.';
     });
   });
