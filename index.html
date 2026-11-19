@@ -170,25 +170,29 @@
     var news = document.getElementById('tips').checked;
     if (!name) { msg.textContent = 'Please add your first name.'; return; }
     if (!isMail && !/^\+?\d{9,15}$/.test(digits)) { msg.textContent = 'Add an email, or a WhatsApp number like 05X XXX XXXX.'; return; }
-    msg.textContent = ''; go.disabled = true; go.textContent = 'Creating…';
+    msg.textContent = '';
     var acc = { name: name, contact: isMail ? contact : digits, news: news, source: ref || 'landing', at: new Date().toISOString() };
+    // The account is ready straight away. The details are sent in the background; if that
+    // fails (offline, or the form service is slow), the app sends them again next time it opens.
+    try { localStorage.setItem(ACCOUNT_KEY, JSON.stringify(acc)); localStorage.setItem('pt.signup.pending', '1'); } catch (err) {}
+    count('signup'); if (news) { count('signup-news'); }
+    welcome(name, true);
+    sendAcc(acc);
+  });
+  function sendAcc(acc) {
+    var isMail = /@/.test(acc.contact);
     var req = SIGNUP_URL
-      ? fetch(SIGNUP_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name, email: isMail ? contact : '', phone: isMail ? '' : digits, newsletter: news, source: acc.source, app: 'site' }) })
+      ? fetch(SIGNUP_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: acc.name, email: isMail ? acc.contact : '', phone: isMail ? '' : acc.contact, newsletter: acc.news, source: acc.source, app: 'site' }) })
           .then(function (r) { if (!r.ok) { throw new Error('failed'); } })
       : fetch('https://formsubmit.co/ajax/' + encodeURIComponent(TO), {
           method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ _subject: 'Threshold sign-up: ' + name + (news ? ' (newsletter)' : ''), _template: 'table', _captcha: 'false',
-            Name: name, 'Email or WhatsApp': acc.contact, 'Weekly brief': news ? 'YES' : 'No', Source: 'Website' + (ref ? ' (via ' + ref + ')' : ''), Date: acc.at })
+          body: JSON.stringify({ _subject: 'Threshold sign-up: ' + acc.name + (acc.news ? ' (newsletter)' : ''), _template: 'table', _captcha: 'false',
+            Name: acc.name, 'Email or WhatsApp': acc.contact, 'Weekly brief': acc.news ? 'YES' : 'No', Source: 'Website (via ' + acc.source + ')', Date: acc.at })
         }).then(function (r) { return r.json(); }).then(function (j) { if (String(j.success) !== 'true') { throw new Error(j.message || 'failed'); } });
-    req.then(function () {
-      try { localStorage.setItem(ACCOUNT_KEY, JSON.stringify(acc)); } catch (err) {}
-      count('signup'); if (news) { count('signup-news'); }
-      welcome(name, true);
-    }).catch(function () {
-      go.disabled = false; go.textContent = 'Create free account';
-      msg.textContent = 'That did not go through. Please try again in a minute.';
-    });
-  });
+    req.then(function () { try { localStorage.setItem('pt.signup.pending', ''); } catch (err) {} }).catch(function () {});
+  }
+  // A sign-up that did not get through last time is sent again now.
+  try { if (known && localStorage.getItem('pt.signup.pending') === '1') { sendAcc(known); } } catch (e) {}
 })();
 </script>
 </body>
