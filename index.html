@@ -7,10 +7,10 @@
 <meta name="description" content="A free app for renting and buying in the UAE. Spot fake listings, see the real cost, and know what to ask. Join the early list.">
 <meta property="og:title" content="Threshold: read any UAE property ad before you pay">
 <meta property="og:description" content="Free app for renting and buying in the UAE. Join the early list.">
-<meta property="og:image" content="https://thresholduae.github.io/img/share.jpg">
-<meta property="og:url" content="https://thresholduae.github.io/">
+<meta property="og:image" content="https://thresholduae.com/img/share.jpg">
+<meta property="og:url" content="https://thresholduae.com/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://thresholduae.github.io/">
+<link rel="canonical" href="https://thresholduae.com/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#EEE8DB">
 <link rel="icon" href="img/icon.png">
@@ -77,7 +77,7 @@
 
   <section class="hero">
     <div>
-      <div class="soon"><i></i>Free now in your browser · phone app coming soon</div>
+      <div class="soon"><i></i>Free now in your browser Â· phone app coming soon</div>
       <h1>Read any UAE property ad <span>before you pay.</span></h1>
       <p class="lead">Paste a listing and see the warning signs, the sales talk and what it leaves out. Then see what the home will really cost each month. Free, no account needed, and what you type stays on your phone.</p>
       <div class="try">
@@ -121,7 +121,7 @@
     <div class="feat"><b>Six more tools</b><p>Rent or buy, a viewing checklist, comparing homes, and ready messages for rent offers, repairs and deposits.</p></div>
   </section>
 
-  <footer><span>© 2026 Threshold. All rights reserved.</span><a href="rental-scam-check.html">Is this rental ad a scam?</a><a href="cost-of-renting-dubai.html">The real cost of renting in Dubai</a><a href="buying-costs-dubai.html">Costs of buying in Dubai</a><a href="privacy.html">Privacy policy</a><span>General information, not legal or financial advice.</span></footer>
+  <footer><span>Â© 2026 Threshold. All rights reserved.</span><a href="rental-scam-check.html">Is this rental ad a scam?</a><a href="cost-of-renting-dubai.html">The real cost of renting in Dubai</a><a href="buying-costs-dubai.html">Costs of buying in Dubai</a><a href="privacy.html">Privacy policy</a><span>General information, not legal or financial advice.</span></footer>
 </main>
 
 <script>
@@ -169,7 +169,7 @@
     if (!name) { msg.textContent = 'Please add your first name.'; return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please check your email address.'; return; }
     if (tester && pick.phone === 'iPhone') { msg.textContent = 'Early testing is on Android only for now. Untick it, or choose Android.'; return; }
-    msg.textContent = ''; go.disabled = true; go.textContent = 'Saving…';
+    msg.textContent = ''; go.disabled = true; go.textContent = 'Savingâ€¦';
     if (KIT_FORM_ID) {
       // Adds them to the mailing list. The list service does not let a page read its reply, so this is sent and not checked.
       var kit = new URLSearchParams();
@@ -193,7 +193,7 @@
         count('waitlist-join');
         document.getElementById('card').innerHTML = '<div class="done"><div>You are on the list</div><div class="big">Thank you, ' + name.replace(/[<>&"]/g, '') + '.</div>' +
           '<p style="color:var(--soft);margin:0">' + (tester ? 'You will get an invite to test it on Android first.' : 'You will get one email when the app is out.') + '</p>' +
-          '<a class="wa" href="https://wa.me/?text=' + encodeURIComponent('Flat hunting? This free app checks any UAE property ad for scam signs before you pay: https://thresholduae.github.io/?ref=friend') + '">Send it to a friend who is flat hunting</a><br>' +
+          '<a class="wa" href="https://wa.me/?text=' + encodeURIComponent('Flat hunting? This free app checks any UAE property ad for scam signs before you pay: https://thresholduae.com/?ref=friend') + '">Send it to a friend who is flat hunting</a><br>' +
           '<a class="wa" href="app/' + tag + '#/decode">Check an ad now in your browser</a></div>';
       } else {
         throw new Error(j.message || 'failed');
