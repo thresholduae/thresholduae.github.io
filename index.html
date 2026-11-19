@@ -144,7 +144,7 @@
   document.getElementById('tryApp').href = 'app/' + tag + '#/decode';
   document.getElementById('tryScam').href = 'app/' + tag + '#example=scam';
   // The free account is shared with the web app (same site), so signing up here unlocks the app too.
-  var SIGNUP_URL = '';   // the sign-up server address once it is live (tools/signup-worker); '' = email to TO
+  var SIGNUP_URL = 'https://threshold-signup.thresholduae-app.workers.dev';   // the sign-up server address once it is live (tools/signup-worker); '' = email to TO
   var ACCOUNT_KEY = 'pt.account.v1';
   function getAcc() { try { return JSON.parse(localStorage.getItem(ACCOUNT_KEY) || 'null'); } catch (e) { return null; } }
   try { if (ref) { localStorage.setItem('pt.ref', ref); } } catch (e) {}
